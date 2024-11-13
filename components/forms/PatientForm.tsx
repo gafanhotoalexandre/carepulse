@@ -1,20 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Form } from '@/components/ui/form'
 import { CustomFormField } from '@/components/CustomFormField'
-import { SubmitButton } from '../SubmitButton'
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'O username deve ter ao menos 2 caracteres.',
-  }),
-  email: z.string().email(),
-})
+import { SubmitButton } from '@/components/SubmitButton'
+import { UserFormSchema } from '@/lib/validation'
+import { createUser } from '@/lib/actions/patient.actions'
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -27,22 +23,40 @@ export enum FormFieldType {
 }
 
 export function PatientForm() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: {
-      username: '',
+      name: '',
       email: '',
+      phone: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  async function onSubmit({
+    name,
+    email,
+    phone,
+  }: z.infer<typeof UserFormSchema>) {
+    setIsLoading(true)
+
+    try {
+      const userData = { name, email, phone }
+      const user = await createUser(userData)
+      if (user) router.push(`/patients/${user.$id}/register`)
+    } catch (error) {
+      console.log(error)
+    }
+
+    setIsLoading(false)
+  }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex-1'>
-        <section className='mb-8 space-y-4'>
+        <section className='mb-6 space-y-3'>
           <h1 className='header'>Seja bem-vindo! 👋</h1>
           <p className='text-dark-700'>
             Que tal agendar sua primeira consulta?
@@ -64,7 +78,7 @@ export function PatientForm() {
           control={form.control}
           name='email'
           label='E-mail'
-          placeholder='Joãodasilva@email.com'
+          placeholder='joaodasilva@email.com'
           iconSrc='/assets/icons/email.svg'
           iconAlt='email'
         />

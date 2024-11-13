@@ -1,16 +1,15 @@
 import Image from 'next/image'
 import { Control } from 'react-hook-form'
 
-import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { E164Number } from 'libphonenumber-js'
+import 'react-phone-number-input/style.css'
 
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from './ui/form'
 import { Input } from './ui/input'
@@ -89,7 +88,7 @@ export function CustomFormField(props: CustomProps) {
 
           <RenderField field={field} props={props} />
 
-          <FormMessage className='shad-error' />
+          <FormMessage className='shad-error text-xs' />
         </FormItem>
       )}
     ></FormField>
