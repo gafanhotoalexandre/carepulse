@@ -41,8 +41,8 @@ export function PatientForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 flex-1'>
-        <section className='mb-12 space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex-1'>
+        <section className='mb-8 space-y-4'>
           <h1 className='header'>Seja bem-vindo! 👋</h1>
           <p className='text-dark-700'>
             Que tal agendar sua primeira consulta?
