@@ -13,8 +13,10 @@ import { UserFormSchema } from '@/lib/validation'
 import { createUser } from '@/lib/actions/patient.actions'
 import { FormFieldType } from './PatientForm'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
-import { GENDER_OPTIONS } from '@/constants'
 import { Label } from '../ui/label'
+import { SelectItem } from '../ui/select'
+
+import { DOCTORS, GENDER_OPTIONS } from '@/constants'
 
 export function RegisterForm({ user }: { user: User }) {
   const router = useRouter()
@@ -125,6 +127,42 @@ export function RegisterForm({ user }: { user: User }) {
                 </RadioGroup>
               </FormControl>
             )}
+          />
+        </div>
+
+        <div className='flex flex-col gap-5 xl:flex-row'>
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name='address'
+            label='Endereço'
+            placeholder='Edgar Coelho, 323, São José'
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name='occupation'
+            label='Profissão'
+            placeholder='Engenheiro de Software'
+          />
+        </div>
+
+        <div className='flex flex-col gap-5 xl:flex-row'>
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name='emergencyContactName'
+            label='Nome do Contato de emergência'
+            placeholder='Maria da Silva'
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.PHONE_INPUT}
+            control={form.control}
+            name='emergencyContactNumber'
+            label='Número do Contato de emergência'
+            placeholder='(99) 9.9999-9999'
           />
         </div>
 
